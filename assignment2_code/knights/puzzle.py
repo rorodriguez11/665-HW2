@@ -17,10 +17,14 @@ CKnave = Symbol("C is a Knave")
 # A says "I am both a knight and a knave."
 # ----------------------------------------
 ##   write the statement(s) in PL 
-stat = None
+stat = And(AKnight, AKnave)
 ##   Fill in the knowledge base
 knowledge1 = And(
     # TODO
+    Or(AKnight, AKnave),
+    Xor(AKnight, AKnave),
+    Implication(AKnight, stat),
+    Implication(AKnave, Not(stat))
 )
 # ----------------------------------------
 
@@ -29,10 +33,25 @@ knowledge1 = And(
 # B says "We are of different kinds."
 # ----------------------------------------
 ##   write the statement(s) in PL 
-stat = None
+stat = And(
+    Biconditional(AKnight, BKnight),
+    Biconditional(AKnave, BKnave)
+)
+
+bstat = Or(
+    And(AKnight, BKnave),
+    And(AKnave, BKnight)
+)
 ##   Fill in the knowledge base
 knowledge2 = And(
-    # TODO
+    Or(AKnight, AKnave),
+    Xor(AKnight, AKnave),
+    Or(BKnight, BKnave),
+    Xor(BKnight, BKnave),
+    Implication(AKnight, stat),
+    Implication(AKnave, Not(stat)),
+    Implication(BKnight, bstat),
+    Implication(BKnave, Not(bstat))
 )
 # ----------------------------------------
 
@@ -45,8 +64,31 @@ knowledge2 = And(
 ##   write the statement(s) in PL 
 stat = None
 ##   Fill in the knowledge base
+ASaidKnight = Symbol("A said 'I am a Knight'")
+ASaidKnave = Symbol("A said 'I am a Knave'")
+
 knowledge3 = And(
-    # TODO
+    Or(AKnight, AKnave),
+    Xor(AKnight, AKnave),
+    Or(BKnight, BKnave),
+    Xor(BKnight, BKnave),
+    Or(CKnight, CKnave),
+    Xor(CKnight, CKnave),
+
+    Xor(ASaidKnight, ASaidKnave),
+
+    Implication(ASaidKnight, Implication(AKnight, AKnight)),
+    Implication(ASaidKnight, Implication(AKnave, Not(AKnight))),
+    Implication(ASaidKnave, Implication(AKnight, AKnave)),
+    Implication(ASaidKnave, Implication(AKnave, Not(AKnave))),
+
+    Implication(BKnight, ASaidKnave),
+    Implication(BKnave, Not(ASaidKnave)),
+    Implication(BKnight, CKnave),
+    Implication(BKnave, Not(CKnave)),
+
+    Implication(CKnight, AKnight),
+    Implication(CKnave, Not(AKnight))
 )
 # ----------------------------------------
 
