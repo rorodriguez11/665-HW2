@@ -238,7 +238,7 @@ def best_action(root):
     """
     Return the action from root corresponding to the most-visited child. [cite: 73]
     """
-    # Most-visited child is the standard robust choice for MCTS.
+    # Most-visited child is the standard choice.
     return max(root.children.items(), key=lambda item: item[1].N)[0]
 
 
@@ -255,19 +255,19 @@ def mcts(state, budget=2000, reward_mode="winloss", c=math.sqrt(2)):
     for _ in range(budget):
         node = root
         
-        # 1. Selection
+        #Selection
         while not terminal(node.state) and not node.untried_actions:
             node = select_child_uct(node, c)
             
-        # 2. Expansion
+        #Expansion
         if not terminal(node.state) and node.untried_actions:
             node = expand(node)
             
-        # 3. Rollout (Simulation)
+        #Rollout
         final_state = rollout(node.state)
         reward = terminal_reward(final_state, root_player, reward_mode)
         
-        # 4. Backpropagation
+        #Backpropagation
         backpropagate(node, reward)
         
     return best_action(root)
