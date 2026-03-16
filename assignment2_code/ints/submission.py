@@ -33,6 +33,79 @@ def ints() -> Tuple[List[Formula], Formula]:
     formulas = []
     # BEGIN_YOUR_CODE (our solution is 16 lines of code, but don't worry if you deviate from this)
     # TODO
+    # a
+    formulas.append(
+        Forall('$x',
+               Exists('$y',
+                      And(
+                          Successor('$x', '$y'),
+                          And(
+                              Not(Equals('$x', '$y')),
+                              Forall('$z',
+                                     Implies(Successor('$x', '$z'), Equals('$y', '$z'))
+                                     )
+                          )
+                      )
+                      )
+               )
+    )
+
+    # b
+    formulas.append(
+        Forall('$x',
+               Xor(Even('$x'), Odd('$x'))
+               )
+    )
+
+    # c
+    formulas.append(
+        Forall('$x',
+               Forall('$y',
+                      Implies(
+                          And(Even('$x'), Successor('$x', '$y')),
+                          Odd('$y')
+                      )
+                      )
+               )
+    )
+
+    # d
+    formulas.append(
+        Forall('$x',
+               Forall('$y',
+                      Implies(
+                          And(Odd('$x'), Successor('$x', '$y')),
+                          Even('$y')
+                      )
+                      )
+               )
+    )
+
+    # e
+    formulas.append(
+        Forall('$x',
+               Forall('$y',
+                      Implies(
+                          Successor('$x', '$y'),
+                          Larger('$y', '$x')
+                      )
+                      )
+               )
+    )
+
+    # f
+    formulas.append(
+        Forall('$x',
+               Forall('$y',
+                      Forall('$z',
+                             Implies(
+                                 And(Larger('$x', '$y'), Larger('$y', '$z')),
+                                 Larger('$x', '$z')
+                             )
+                             )
+                      )
+               )
+    )
     # END_YOUR_CODE
     query = Forall('$x', Exists('$y', And(Even('$y'), Larger('$y', '$x'))))
     return formulas, query
